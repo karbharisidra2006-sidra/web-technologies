@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stored Student Data</title>
+</head>
+
+<body>
+
+<h2>Stored Form Data</h2>
+
+<button onclick="copyData()">Copy Data</button>
+<button onclick="downloadCSV()">Download CSV</button>
+
+<br><br>
+
+<table border="1" id="table">
+
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Age</th>
+<th>Course</th>
+<th>Gender</th>
+<th>Skills</th>
+</tr>
+
+</table>
+
+<script>
+
+let data=JSON.parse(localStorage.getItem("studentData")) || [];
+
+let table=document.getElementById("table");
+
+for(let i=0;i<data.length;i++)
+{
+
+let row=table.insertRow();
+
+row.insertCell(0).innerHTML=data[i].name;
+row.insertCell(1).innerHTML=data[i].email;
+row.insertCell(2).innerHTML=data[i].age;
+row.insertCell(3).innerHTML=data[i].course;
+row.insertCell(4).innerHTML=data[i].gender;
+row.insertCell(5).innerHTML=data[i].skills;
+
+}
+
+function copyData()
+{
+
+let text="";
+
+for(let i=0;i<data.length;i++)
+{
+text+=data[i].name + "," + data[i].email + "," + data[i].age + "," + data[i].course + "," + data[i].gender + "," + data[i].skills + "\n";
+}
+
+navigator.clipboard.writeText(text);
+
+alert("Data Copied");
+
+}
+
+function downloadCSV()
+{
+
+let csv="Name,Email,Age,Course,Gender,Skills\n";
+
+for(let i=0;i<data.length;i++)
+{
+csv+=data[i].name + "," + data[i].email + "," + data[i].age + "," + data[i].course + "," + data[i].gender + "," + data[i].skills + "\n";
+}
+
+let blob=new Blob([csv],{type:"text/csv"});
+
+let url=URL.createObjectURL(blob);
+
+let a=document.createElement("a");
+
+a.href=url;
+
+a.download="student_data.csv";
+
+a.click();
+
+}
+
+</script>
+
+</body>
+</html>

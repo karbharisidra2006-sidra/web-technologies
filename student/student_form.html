@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student Form</title>
+</head>
+
+<body>
+
+<h2>Student Information Form</h2>
+
+<form id="studentForm">
+
+Name:
+<input type="text" id="name" required><br><br>
+
+Email:
+<input type="email" id="email" required><br><br>
+
+Age:
+<input type="number" id="age"><br><br>
+
+Course:
+<select id="course">
+<option>BCA</option>
+<option>BBA</option>
+<option>BTech</option>
+</select>
+
+<br><br>
+
+Gender:
+<input type="radio" name="gender" value="Male">Male
+<input type="radio" name="gender" value="Female">Female
+
+<br><br>
+
+Skills:
+<input type="checkbox" value="HTML" class="skills">HTML
+<input type="checkbox" value="CSS" class="skills">CSS
+<input type="checkbox" value="JavaScript" class="skills">JavaScript
+
+<br><br>
+
+<input type="submit" value="Submit">
+
+</form>
+
+<br>
+
+<button onclick="viewData()">View Stored Data</button>
+
+<script>
+
+document.getElementById("studentForm").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+let name=document.getElementById("name").value;
+let email=document.getElementById("email").value;
+let age=document.getElementById("age").value;
+let course=document.getElementById("course").value;
+
+let gender="";
+let g=document.getElementsByName("gender");
+
+for(let i=0;i<g.length;i++)
+{
+if(g[i].checked)
+{
+gender=g[i].value;
+}
+}
+
+let skills=[];
+let s=document.getElementsByClassName("skills");
+
+for(let i=0;i<s.length;i++)
+{
+if(s[i].checked)
+{
+skills.push(s[i].value);
+}
+}
+
+let data={
+name:name,
+email:email,
+age:age,
+course:course,
+gender:gender,
+skills:skills.join("|")
+};
+
+let stored=JSON.parse(localStorage.getItem("studentData")) || [];
+
+stored.push(data);
+
+localStorage.setItem("studentData",JSON.stringify(stored));
+
+alert("Data Saved");
+
+});
+
+function viewData()
+{
+window.open("student_data.html");
+}
+
+</script>
+
+</body>
+</html>

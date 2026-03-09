@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student Form</title>
+<style>
+body{
+font-family: Arial;
+text-align:center;
+}
+
+form{
+border:1px solid black;
+width:300px;
+margin:auto;
+padding:20px;
+}
+
+input,select{
+margin:5px;
+padding:5px;
+width:90%;
+}
+
+button{
+padding:8px;
+margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Student Registration Form</h2>
+
+<form id="myForm">
+
+<input type="text" id="name" placeholder="Enter Name" required><br>
+
+<input type="email" id="email" placeholder="Enter Email" required><br>
+
+<input type="number" id="age" placeholder="Enter Age"><br>
+
+<select id="course">
+<option value="BCA">BCA</option>
+<option value="BBA">BBA</option>
+<option value="BTech">BTech</option>
+</select><br>
+
+<label>Gender</label><br>
+<input type="radio" name="gender" value="Male"> Male
+<input type="radio" name="gender" value="Female"> Female
+<br><br>
+
+<label>Skills</label><br>
+<input type="checkbox" value="HTML" class="skills"> HTML
+<input type="checkbox" value="CSS" class="skills"> CSS
+<input type="checkbox" value="JavaScript" class="skills"> JavaScript
+<br><br>
+
+<button type="submit">Submit</button>
+
+</form>
+
+<br>
+
+<button onclick="openData()">View Stored Data</button>
+
+<script>
+
+document.getElementById("myForm").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+let name=document.getElementById("name").value;
+let email=document.getElementById("email").value;
+let age=document.getElementById("age").value;
+let course=document.getElementById("course").value;
+
+let gender="";
+document.getElementsByName("gender").forEach(g=>{
+if(g.checked) gender=g.value;
+});
+
+let skills=[];
+document.querySelectorAll(".skills:checked").forEach(s=>{
+skills.push(s.value);
+});
+
+let data={
+name,email,age,course,gender,skills:skills.join("|")
+};
+
+let stored=JSON.parse(localStorage.getItem("formData")) || [];
+stored.push(data);
+
+localStorage.setItem("formData",JSON.stringify(stored));
+
+alert("Data Saved!");
+
+});
+
+function openData(){
+window.open("data.html","_blank");
+}
+
+</script>
+
+</body>
+</html>
